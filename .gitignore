@@ -1,0 +1,11 @@
+Jmeter test/
+FitPhysique_Deploy_Flat.zip
+FitPhysique_Deploy_Dist.zip
+*.zip
+*.sql
+*.drawio
+*.docx
+*.sh
+prjgym.txt
+Git_Simulation/
+Git_Workflow_Team5.md
