@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /BTLWeb(PC)/backend/api/
+
+  # Cho phép OPTIONS (preflight CORS)
+  RewriteCond %{REQUEST_METHOD} OPTIONS
+  RewriteRule .* - [L]
+
+  # Nếu request không phải file thực → chuyển về index.php (giữ query string)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php [L,QSA]
+</IfModule>

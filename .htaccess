@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /BTLWeb(PC)/
+
+  # Cho phép preflight OPTIONS đi thẳng
+  RewriteCond %{REQUEST_METHOD} OPTIONS
+  RewriteRule .* - [L]
+
+  # 1. RESTful API: /api/* → backend/api/index.php (Router trung tâm)
+  #    Ngoại trừ các file tĩnh thực sự tồn tại (uploads, assets)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^api/(.*)$ backend/api/index.php [L,QSA]
+
+  # 2. React Router Fallback: mọi route không phải file/thư mục → index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(?!api/)(.*)$ frontend/dist/index.html [L]
+</IfModule>
