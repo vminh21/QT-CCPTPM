@@ -1,0 +1,245 @@
+/* ── Login Page Styles matching user provided design ── */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css');
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Use the background image to match the dark dramatic gym vibe */
+  background: url('../../assets/header.jpg') center/cover no-repeat fixed;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Optional overlay to darken the background slightly */
+.login-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+}
+
+.login-card {
+  /* Frosted Glassmorphism matching the image */
+  background: rgba(255, 255, 255, 0.15); /* Light translucent grey */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 40px 35px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  color: #111;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.login-header h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 5px;
+  letter-spacing: -0.5px;
+}
+
+.login-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-logo i {
+  font-size: 1.8rem;
+  color: #000;
+}
+
+.login-logo span {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e60000;
+  letter-spacing: 0.5px;
+  margin-top: -5px;
+}
+.login-logo span b {
+  color: #000;
+  font-weight: 700;
+}
+
+/* ── Form ─────────────────────────────────────────────────────────── */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrap input {
+  width: 100%;
+  background: #d4d4d4; /* solid light grey matching the image */
+  border: none;
+  border-radius: 50px; /* Pill shape */
+  padding: 14px 45px 14px 20px;
+  color: #000;
+  font-size: 0.95rem;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.input-wrap input::placeholder {
+  color: #555;
+  font-weight: 500;
+}
+
+.input-wrap input:focus {
+  background: #e0e0e0;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 0 0 2px rgba(230, 0, 0, 0.5);
+}
+
+/* Icons are on the right side */
+.input-wrap i {
+  position: absolute;
+  right: 18px;
+  color: #000;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.input-wrap i.toggle-pass {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* ── Options ─────────────────────────────────────────────────────── */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #000;
+  font-weight: 600;
+  padding: 0 5px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+  accent-color: #000;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.forgot-link {
+  color: #000;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Button ──────────────────────────────────────────────────────── */
+.btn-login {
+  background: #e60000; /* Solid bold red matching the image */
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 14px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 5px;
+  box-shadow: 0 4px 15px rgba(230,0,0,0.3);
+}
+
+.btn-login:hover:not(:disabled) {
+  background: #cc0000;
+  transform: translateY(-2px);
+}
+
+.btn-login:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: translateY(0);
+}
+
+.btn-spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Register text ───────────────────────────────────────────────── */
+.register-text {
+  text-align: center;
+  color: #000;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.register-text a {
+  color: #000;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.register-text a:hover {
+  text-decoration: underline;
+}
+
+/* ── Toast ───────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: 20px; right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.3s ease;
+  max-width: 360px;
+}
+.toast.show { opacity: 1; transform: translateX(0); }
+.toast.error { background: #fee2e2; border: 1px solid #ef4444; color: #b91c1c; }
+.toast.success { background: #dcfce7; border: 1px solid #22c55e; color: #15803d; }
+.toast i { font-size: 1.2rem; }
