@@ -3,6 +3,7 @@ FitPhysique_Deploy_Flat.zip
 FitPhysique_Deploy_Dist.zip
 *.zip
 *.sql
+!GymManagement_export.sql
 *.drawio
 *.docx
 *.sh
