@@ -18,7 +18,7 @@ jobs:
       - name: Tự động khởi chạy lại hệ thống Docker
         run: |
           # Dừng hệ thống cũ
-          sudo docker-compose -f docker-compose.prod.yml down
+          docker-compose -f docker-compose.prod.yml down
           
           # Xây dựng lại Image và chạy hệ thống mới
-          sudo docker-compose -f docker-compose.prod.yml up -d --build
+          docker-compose -f docker-compose.prod.yml up -d --build
