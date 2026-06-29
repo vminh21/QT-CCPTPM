@@ -1,0 +1,20 @@
+FROM php:8.2-apache
+
+# Cài đặt phần mở rộng PDO MySQL
+RUN docker-php-ext-install pdo pdo_mysql
+
+# Kích hoạt mod_rewrite của Apache
+RUN a2enmod rewrite
+
+# Cho phép .htaccess ghi đè cấu hình (AllowOverride All)
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+
+# Chuyển thư mục làm việc vào thư mục backend
+WORKDIR /var/www/html/backend
+
+# [PRODUCTION ONLY] Copy toàn bộ mã nguồn vào trong image
+COPY . /var/www/html/backend
+
+# Cấp quyền cho thư mục uploads để Apache (www-data) có thể lưu ảnh
+RUN chown -R www-data:www-data /var/www/html/backend/uploads && \
+    chmod -R 775 /var/www/html/backend/uploads

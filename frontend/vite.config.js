@@ -7,15 +7,15 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      // Mọi request /api/* sẽ được forward tới container Backend trong Docker
+      // Forward mọi request /api/* tới con Server Ubuntu (Production)
       '/api': {
-        target: 'http://backend:80/backend',
+        target: 'http://192.168.64.16/backend',
         changeOrigin: true,
         secure: false,
       },
-      // Forward ảnh upload
+      // Forward ảnh upload tới Server Ubuntu
       '/BTLWeb(PC)/backend/uploads': {
-        target: 'http://backend:80',
+        target: 'http://192.168.64.16',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/BTLWeb\(PC\)/, '')

@@ -1,0 +1,24 @@
+name: CD Pipeline (Triển khai Tự động)
+
+on:
+  push:
+    branches: [ "main" ]
+
+# Đảm bảo CI chạy thành công thì mới chạy CD
+# Tuy nhiên ở đây tách ra cho dễ hình dung, bạn có thể gộp nếu thích
+jobs:
+  deploy-to-ubuntu:
+    # Lệnh này báo cho GitHub biết: "Phải chạy job này trên con Ubuntu nội bộ của tôi"
+    runs-on: self-hosted
+    
+    steps:
+      - name: Lấy mã nguồn mới nhất từ GitHub về thư mục làm việc của Runner
+        uses: actions/checkout@v3
+
+      - name: Tự động khởi chạy lại hệ thống Docker
+        run: |
+          # Dừng hệ thống cũ
+          sudo docker-compose -f docker-compose.prod.yml down
+          
+          # Xây dựng lại Image và chạy hệ thống mới
+          sudo docker-compose -f docker-compose.prod.yml up -d --build

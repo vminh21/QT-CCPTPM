@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: gym_db_prod
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: gymmanagement
+    volumes:
+      - db_data_prod:/var/lib/mysql
+      # Tự động nạp dữ liệu khi db chạy lần đầu
+      - ./GymManagement_export.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: gym_backend_prod
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    volumes:
+      # Ở Production, ta chỉ mount thư mục uploads để lưu ảnh, không mount code
+      - backend_uploads_prod:/var/www/html/backend/uploads
+
+volumes:
+  db_data_prod:
+  backend_uploads_prod:
