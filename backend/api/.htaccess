@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /BTLWeb(PC)/backend/api/
+  RewriteBase /backend/api/
 
   # Cho phép OPTIONS (preflight CORS)
   RewriteCond %{REQUEST_METHOD} OPTIONS

@@ -7,23 +7,25 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      // Mọi request /api/* sẽ được forward tới PHP backend
+      // Mọi request /api/* sẽ được forward tới container Backend trong Docker
       '/api': {
-        target: 'http://localhost/BTLWeb(PC)/backend',
+        target: 'http://backend:80/backend',
         changeOrigin: true,
         secure: false,
       },
-      // Forward ảnh upload (notifications, trainers, blogs mới)
+      // Forward ảnh upload
       '/BTLWeb(PC)/backend/uploads': {
-        target: 'http://localhost',
+        target: 'http://backend:80',
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/BTLWeb\(PC\)/, '')
       },
-      // Forward ảnh blog tĩnh cũ (blog-1.jpg → blog-4.jpg)
+      // Forward ảnh blog tĩnh cũ
       '/BTLWeb(PC)/backend/assets': {
-        target: 'http://localhost',
+        target: 'http://backend:80',
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/BTLWeb\(PC\)/, '')
       },
     }
   }

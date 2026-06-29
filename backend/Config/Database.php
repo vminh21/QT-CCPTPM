@@ -3,9 +3,9 @@ class Database {
     private static $instance = null;
     private $conn;
 
-    private $host = 'localhost';
+    private $host = 'db';
     private $user = 'root';
-    private $pass = '';
+    private $pass = '123456';
     private $dbname = 'gymmanagement';
 
     // Private constructor to prevent multiple instances (Singleton Pattern)
