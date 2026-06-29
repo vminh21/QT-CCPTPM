@@ -13,7 +13,7 @@ jobs:
     
     steps:
       - name: Lấy mã nguồn mới nhất từ GitHub về thư mục làm việc của Runner
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Tự động khởi chạy lại hệ thống Docker
         run: |
