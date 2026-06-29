@@ -1,20 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Bắt toàn bộ ngoại lệ để trả về JSON thay vì sập 500
-set_exception_handler(function ($e) {
-    http_response_code(500);
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode([
-        'success' => false,
-        'error' => 'Lỗi hệ thống nội bộ: ' . $e->getMessage(),
-        'trace' => $e->getTraceAsString()
-    ]);
-    exit;
-});
-
 /**
  * RESTful API Router - Điểm vào duy nhất cho toàn bộ API
 
