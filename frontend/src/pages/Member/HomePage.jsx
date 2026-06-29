@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MemberLayout } from '../../components/Layout/MemberLayout';
+import { MemberLayout } from '../../components/layout/MemberLayout';
 import { blogsApi } from '../../api/blogs';
 import { trainersApi } from '../../api/trainers';
 import './Member.css';

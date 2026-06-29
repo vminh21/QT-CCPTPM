@@ -6,4 +6,6 @@ FitPhysique_Deploy_Dist.zip
 *.drawio
 *.docx
 *.sh
+*.md
+!README.md
 
