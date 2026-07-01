@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://168.144.33.103/backend/api/:path*"
+    },
+    {
+      "source": "/:prefix*/backend/uploads/:path*",
+      "destination": "http://168.144.33.103/backend/uploads/:path*"
+    },
+    {
+      "source": "/:prefix*/backend/assets/:path*",
+      "destination": "http://168.144.33.103/backend/assets/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
