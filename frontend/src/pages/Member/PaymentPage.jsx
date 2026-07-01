@@ -8,6 +8,7 @@ import useAuth from '../../hooks/useAuth';
 import { MemberLayout } from '../../components/layout/MemberLayout';
 import './Member.css';
 
+// Danh sách các bộ môn tập luyện (khóa học) định sẵn
 const coursesList = [
   'Body Building',
   'Cardio - Giảm mỡ tĩnh',
@@ -17,6 +18,9 @@ const coursesList = [
   'Khác'
 ];
 
+/**
+ * PaymentPage - Trang đăng ký và mua/gia hạn gói tập của hội viên.
+ */
 function PaymentPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -24,9 +28,9 @@ function PaymentPage() {
   const [packages, setPackages] = useState([]);
   const [trainers, setTrainers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [proc, setProc] = useState(false);
+  const [proc, setProc] = useState(false); // Trạng thái đang xử lý thanh toán
 
-  // Custom Modal State
+  // Cấu hình Modal thông báo tùy chỉnh
   const [modalData, setModalData] = useState({ 
     show: false, type: 'success', title: '', message: '', onClose: null 
   });
@@ -35,17 +39,18 @@ function PaymentPage() {
     setModalData({ show: true, type, title, message, onClose });
   };
 
-  // Checkout states
-  const [checkoutPkg, setCheckoutPkg] = useState(null);
+  // State cho quá trình checkout
+  const [checkoutPkg, setCheckoutPkg] = useState(null); // Gói tập được chọn
   const [form, setForm] = useState({
     trainer_id: '',
     course_name: coursesList[0],
     payment_method: 'Tiền mặt'
   });
 
-  const [qrModal, setQrModal] = useState(null);
-  const [activeSub, setActiveSub] = useState(null);
+  const [qrModal, setQrModal] = useState(null); // Dữ liệu hiển thị QR chuyển khoản
+  const [activeSub, setActiveSub] = useState(null); // Thông tin gói đang hoạt động của hội viên
 
+  // Tải danh sách gói tập, HLV và thông tin gói hiện tại
   useEffect(() => {
     Promise.all([
       packagesApi.list(),
@@ -61,6 +66,7 @@ function PaymentPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  // Xử lý gửi yêu cầu đăng ký gói tập
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
     setProc(true);
@@ -78,12 +84,14 @@ function PaymentPage() {
       if (form.payment_method === 'Tiền mặt') {
         showModal('success', 'Đăng Ký Thành Công', res.data.message || 'Yêu cầu thanh toán tiền mặt của bạn đã được ghi nhận. Vui lòng thanh toán tại quầy!', () => navigate('/member'));
       } else if (form.payment_method === 'Momo') {
+        // Chuyển hướng sang trang thanh toán MoMo
         if (res.data.payUrl) {
           window.location.href = res.data.payUrl;
         } else {
           showModal('error', 'Lỗi Thanh Toán MoMo', 'Không nhận được link thanh toán từ hệ thống. Vui lòng thử lại sau.');
         }
       } else if (form.payment_method === 'Chuyển khoản') {
+        // Hiển thị modal thông tin QR chuyển khoản
         setQrModal(res.data);
       }
     } catch (err) {
@@ -94,6 +102,7 @@ function PaymentPage() {
     }
   };
 
+  // Xác nhận đã chuyển khoản ngân hàng hoàn tất
   const confirmTransfer = async () => {
     if (!qrModal) return;
     try {
@@ -120,11 +129,13 @@ function PaymentPage() {
     <MemberLayout title="Đăng Ký & Mua Gói Tập">
       <div style={{ maxWidth: 1000, margin: '0 auto', gridColumn: '1 / -1' }}>
 
+        {/* BƯỚC 1: CHỌN GÓI TẬP */}
         {!checkoutPkg ? (
           <>
             <h2 style={{ color: '#111827', fontSize: '1.8rem', fontWeight: 700, marginBottom: 8 }}>Chọn gói tập phù hợp</h2>
             <p style={{ color: '#6b7280', marginBottom: 32 }}>Kích hoạt hoặc gia hạn thẻ hội viên để trải nghiệm hệ thống FitPhysique, truy cập tất cả dịch vụ.</p>
 
+            {/* Cảnh báo nếu hội viên đang có gói tập kích hoạt */}
             {activeSub && (
               <div style={{ background: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '16px 20px', borderRadius: 12, marginBottom: 32, color: '#b91c1c', display: 'flex', alignItems: 'center', gap: 10 }}>
                 <i className="bx bxs-error-circle" style={{ fontSize: '1.5rem' }}></i>
@@ -135,6 +146,7 @@ function PaymentPage() {
               </div>
             )}
 
+            {/* Danh sách các thẻ gói tập */}
             {loading ? <p style={{ color: '#6b7280' }}>Đang tải gói tập...</p> : (
                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
                  {packages.map((p, index) => (
@@ -166,6 +178,7 @@ function PaymentPage() {
             )}
           </>
         ) : (
+           /* BƯỚC 2: CẤU HÌNH & CHỌN HÌNH THỨC THANH TOÁN */
            <div style={{ background: '#ffffff', borderRadius: 16, border: '1px solid #e5e7eb', padding: 32, boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
              <button onClick={() => setCheckoutPkg(null)} disabled={proc} style={{ background: 'none', border: 'none', color: '#ea580c', cursor: 'pointer', fontSize: '0.95rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5, marginBottom: 24, transition: '0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#dc2626'} onMouseLeave={e => e.currentTarget.style.color = '#ea580c'}>
                <i className="bx bx-arrow-back"></i> Quay lại chọn gói
@@ -176,6 +189,7 @@ function PaymentPage() {
 
              <form onSubmit={handleCheckoutSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
+               {/* Tóm tắt thông tin gói đã chọn */}
                <div style={{ background: 'rgba(249,115,22,0.05)', border: '1px solid rgba(249,115,22,0.2)', padding: 20, borderRadius: 12 }}>
                  <strong style={{ color: '#ea580c', fontSize: '1.1rem', display: 'block', marginBottom: 6 }}>{checkoutPkg.package_name.toUpperCase()}</strong>
                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -184,6 +198,7 @@ function PaymentPage() {
                  </div>
                </div>
 
+               {/* Chọn môn học/khóa học mong muốn */}
                <div>
                  <label style={{ display: 'block', color: '#374151', marginBottom: 10, fontSize: '0.95rem', fontWeight: 600 }}>Môn tập mong muốn (Khóa học)</label>
                  <select required value={form.course_name} onChange={e => setForm({ ...form, course_name: e.target.value })} style={{ width: '100%', padding: '12px 16px', background: '#f9fafb', border: '1px solid #d1d5db', color: '#111827', borderRadius: 8, outline: 'none', fontSize: '1rem', transition: 'border 0.2s, box-shadow 0.2s' }} onFocus={e => {e.target.style.border = '1px solid #ea580c'; e.target.style.boxShadow = '0 0 0 2px rgba(234,88,12,0.2)'}} onBlur={e => {e.target.style.border = '1px solid #d1d5db'; e.target.style.boxShadow = 'none'}}>
@@ -191,6 +206,7 @@ function PaymentPage() {
                  </select>
                </div>
 
+               {/* Chọn PT cá nhân */}
                <div>
                  <label style={{ display: 'block', color: '#374151', marginBottom: 10, fontSize: '0.95rem', fontWeight: 600 }}>Huấn luyện viên (Không bắt buộc)</label>
                  <select value={form.trainer_id} onChange={e => setForm({ ...form, trainer_id: e.target.value })} style={{ width: '100%', padding: '12px 16px', background: '#f9fafb', border: '1px solid #d1d5db', color: '#111827', borderRadius: 8, outline: 'none', fontSize: '1rem', transition: 'border 0.2s, box-shadow 0.2s' }} onFocus={e => {e.target.style.border = '1px solid #ea580c'; e.target.style.boxShadow = '0 0 0 2px rgba(234,88,12,0.2)'}} onBlur={e => {e.target.style.border = '1px solid #d1d5db'; e.target.style.boxShadow = 'none'}}>
@@ -199,6 +215,7 @@ function PaymentPage() {
                  </select>
                </div>
 
+               {/* Lựa chọn phương thức thanh toán */}
                <div>
                  <label style={{ display: 'block', color: '#374151', marginBottom: 12, fontSize: '0.95rem', fontWeight: 600 }}>Hình thức thanh toán</label>
                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16 }}>
@@ -221,7 +238,7 @@ function PaymentPage() {
         )}
       </div>
 
-      {/* Modal QR Chuyển khoản */}
+      {/* Modal QR Chuyển khoản VietQR */}
       {qrModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#ffffff', padding: 30, borderRadius: 24, width: '100%', maxWidth: 400, textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
@@ -246,7 +263,7 @@ function PaymentPage() {
         </div>
       )}
 
-      {/* Custom Alert Modal */}
+      {/* Modal Custom Alert thông báo thành công/thất bại */}
       {modalData.show && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 20 }}>
           <div style={{ background: '#ffffff', padding: '40px 32px', borderRadius: 24, width: '100%', maxWidth: 420, textAlign: 'center', border: '1px solid #e5e7eb', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', animation: 'slideUp 0.3s ease-out' }}>
