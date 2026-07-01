@@ -1,3 +1,12 @@
+/**
+ * Module: Giao diện & Chức năng trang Thống kê doanh thu (Revenue & BI Reports)
+ * Người phụ trách: Nguyễn Anh Tuấn (STT 5 - Nhóm 9)
+ * Mô tả: Dashboard tổng hợp tình hình tài chính và chỉ số hoạt động phòng gym:
+ *        - Tổng doanh thu, tổng số giao dịch, hội viên mới, gia hạn.
+ *        - Biểu đồ doanh thu 12 tháng theo thời gian thực.
+ *        - Thống kê tỷ lệ giới tính và gói tập phổ biến.
+ *        - Top 5 hội viên chi tiêu cao nhất & lịch sử giao dịch gần đây.
+ */
 import { useEffect, useState } from 'react';
 import { AdminLayout } from '../../components/layout/AdminLayout';
 import '../../components/layout/AdminLayout.css';
@@ -9,6 +18,7 @@ function ReportsPage() {
   const [data,    setData]    = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Tải danh sách các năm có phát sinh giao dịch từ hệ thống Backend
   useEffect(() => {
     reportsApi.years().then(r => {
       const yrs = r.data.data || [];
@@ -17,6 +27,7 @@ function ReportsPage() {
     });
   }, []);
 
+  // Tải chi tiết dữ liệu báo cáo tài chính khi người dùng thay đổi bộ lọc năm
   useEffect(() => {
     if (!year) return;
     setLoading(true);
@@ -25,6 +36,7 @@ function ReportsPage() {
     }).finally(() => setLoading(false));
   }, [year]);
 
+  // Hàm định dạng số tiền chuẩn tiền tệ Việt Nam (VNĐ)
   const formatMoney = (n) => Number(n||0).toLocaleString('vi-VN') + 'đ';
 
   const MONTHS = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12'];
