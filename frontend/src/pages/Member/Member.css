@@ -1,7 +1,7 @@
 /* ── Member Pages CSS ─────────────────────────────────────────────── */
 @import url('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css');
 
-/* Navbar */
+/* Thanh điều hướng (Navbar) */
 .member-navbar {
   position: sticky;
   top: 0;
@@ -15,6 +15,7 @@
   align-items: center;
   justify-content: space-between;
 }
+/* Tên thương hiệu/Logo trên Navbar */
 .member-nav-brand .brand-name {
   font-size: 1.4rem;
   font-weight: 800;
@@ -23,6 +24,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+/* Danh sách các link điều hướng */
 .member-nav-links {
   display: flex;
   align-items: center;
@@ -36,6 +38,7 @@
 }
 .member-nav-links a:hover { color: #f97316; }
 
+/* Icon thông báo kèm badge đếm số lượng */
 .notif-link { position: relative; }
 .notif-badge {
   position: absolute;
@@ -52,6 +55,7 @@
 }
 .notif-link i { font-size: 1.3rem; color: #888; }
 
+/* Menu thông tin tài khoản người dùng */
 .nav-user-menu {
   display: flex;
   align-items: center;
@@ -62,6 +66,7 @@
   font-size: 0.88rem;
 }
 .nav-user-menu i:first-child { font-size: 1.6rem; color: #f97316; }
+/* Dropdown menu tùy chọn tài khoản */
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 12px);
@@ -90,11 +95,11 @@
 .dropdown-menu li:last-child { color: #ef4444; }
 .dropdown-menu li:last-child:hover { background: rgba(239,68,68,0.1); }
 
-/* Member Main */
+/* Bố cục trang chính Hội viên */
 .member-page { min-height: 100vh; background: transparent; }
 .member-main { padding: 32px; max-width: 1200px; margin: 0 auto; }
 
-/* Hero */
+/* Banner chào mừng (Hero Section) */
 .hero-section {
   background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(239,68,68,0.08));
   border: 1px solid rgba(249,115,22,0.15);
@@ -122,6 +127,7 @@
   font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.2s;
 }
 .btn-hero-secondary:hover { background: #f3f4f6; }
+/* Họa tiết trang trí dạng hình tròn ở góc Banner */
 .hero-decoration { position: absolute; top: 0; right: 0; bottom: 0; width: 40%; pointer-events: none; }
 .hero-circle {
   position: absolute; border-radius: 50%;
@@ -130,11 +136,11 @@
 .c1 { width: 300px; height: 300px; top: -100px; right: -50px; }
 .c2 { width: 200px; height: 200px; bottom: -80px; right: 80px; }
 
-/* Sections */
+/* Các phần mục chung */
 .section { margin-bottom: 40px; }
 .section-title { font-size: 1.25rem; font-weight: 700; color: #111827; margin-bottom: 20px; }
 
-/* Exercise Grid */
+/* Danh sách Lịch trình/Bài tập */
 .exercise-grid {
   display: grid; grid-template-columns: repeat(4,1fr); gap: 16px;
 }
@@ -147,7 +153,7 @@
 .exercise-card:hover { transform: translateY(-3px); border-color: rgba(249,115,22,0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 .exercise-card span { color: #374151; font-size: 0.9rem; font-weight: 600; }
 
-/* Trainer Grid */
+/* Thẻ thông tin Huấn luyện viên (PT) */
 .trainer-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
 .trainer-card {
   background: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
@@ -165,7 +171,7 @@
 .trainer-info strong { color: #111827; font-size: 0.95rem; }
 .trainer-info span { color: #6b7280; font-size: 0.8rem; }
 
-/* Blog Grid */
+/* Danh sách Thẻ bản tin (Blogs) */
 .blog-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
 .blog-card {
   background: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
@@ -182,7 +188,7 @@
 .blog-body h3 { color: #111827; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
 .blog-body p { color: #6b7280; font-size: 0.78rem; }
 
-/* Profile Page */
+/* Khối giao diện trang Hồ sơ cá nhân */
 .profile-page { min-height: 100vh; background: transparent; }
 .profile-content { max-width: 900px; margin: 0 auto; padding: 32px; }
 .profile-card {

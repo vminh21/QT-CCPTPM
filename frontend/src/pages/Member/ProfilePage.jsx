@@ -5,17 +5,28 @@ import { profileApi } from '../../api/profile';
 import useAuth from '../../hooks/useAuth';
 import './Member.css';
 
+/**
+ * ProfilePage - Trang quản lý hồ sơ thông tin cá nhân, gói tập và lịch sử lịch tập của hội viên.
+ */
 function ProfilePage() {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const [data, setData] = useState(null);
+  
+  // Form quản lý cập nhật thông tin cá nhân
   const [form, setForm] = useState({ full_name:'', email:'', phone_number:'', address:'', gender:'', password:'' });
+  
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState({ show:false, msg:'', type:'success' });
   const [submitting, setSubmitting] = useState(false);
 
-  const showToast = (msg, type='success') => { setToast({show:true,msg,type}); setTimeout(()=>setToast({show:false,msg:'',type:'success'}),3500); };
+  // Hiển thị Toast thông báo tự động ẩn sau 3.5 giây
+  const showToast = (msg, type='success') => { 
+    setToast({show:true,msg,type}); 
+    setTimeout(()=>setToast({show:false,msg:'',type:'success'}),3500); 
+  };
 
+  // Tải dữ liệu thông tin hồ sơ của hội viên đăng nhập
   const fetchProfile = () => {
     setLoading(true);
     profileApi.get().then(r => {
@@ -32,6 +43,7 @@ function ProfilePage() {
 
   useEffect(() => { fetchProfile(); }, []);
 
+  // Xử lý gửi cập nhật thông tin cá nhân
   const handleUpdate = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -46,6 +58,7 @@ function ProfilePage() {
     } finally { setSubmitting(false); }
   };
 
+  // Yêu cầu hủy gói tập đang kích hoạt
   const cancelSub = async () => {
     if (!window.confirm('Bạn có chắc muốn hủy gói tập hiện tại? Không thể hoàn tác!')) return;
     try {
@@ -58,6 +71,7 @@ function ProfilePage() {
     }
   };
 
+  // Xác nhận hoặc Từ chối lịch tập luyện (PT/Đăng ký)
   const confirmSchedule = async (id, status) => {
     try {
       const res = await profileApi.confirmSchedule(id, status);
@@ -73,10 +87,12 @@ function ProfilePage() {
 
   return (
     <MemberLayout title="Hồ sơ của tôi">
+      {/* Toast thông báo */}
       {toast.show && <div style={{position:'fixed',top:80,right:20,padding:'12px 20px',borderRadius:10,zIndex:9999,background:toast.type==='success'?'#1a2d1a':'#2d1a1a',border:`1px solid ${toast.type==='success'?'#22c55e':'#ef4444'}`,color:toast.type==='success'?'#86efac':'#fca5a5'}}>{toast.msg}</div>}
 
       <div style={{ maxWidth: 900 }}>
-        {/* Profile Form */}
+        
+        {/* Khối Cập nhật thông tin cá nhân */}
         <div className="admin-table-wrap" style={{ padding: 28, marginBottom: 24, background: '#141414' }}>
           <h2 style={{ color: '#fff', fontSize: '1.1rem', fontWeight: 600, marginBottom: 20 }}>Thông tin cá nhân</h2>
           <form onSubmit={handleUpdate} style={{display:'flex',flexDirection:'column',gap:16}}>
@@ -94,7 +110,7 @@ function ProfilePage() {
           </form>
         </div>
 
-        {/* Subscription Info */}
+        {/* Khối Thông tin Gói tập hiện tại */}
         <div className="admin-table-wrap" style={{ padding: 28, marginBottom: 24, background: '#141414' }}>
           <h2 style={{ color: '#fff', fontSize: '1.1rem', fontWeight: 600, marginBottom: 20 }}>Gói tập hiện tại</h2>
           {data?.active_sub ? (
@@ -112,7 +128,7 @@ function ProfilePage() {
           )}
         </div>
 
-        {/* Schedules */}
+        {/* Bảng Danh sách Lịch tập luyện */}
         <div className="admin-table-wrap">
           <div className="table-header-row"><h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#fff' }}>Lịch tập luyện</h2></div>
           {data?.schedules?.length > 0 ? (
