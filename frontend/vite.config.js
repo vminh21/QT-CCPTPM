@@ -22,7 +22,7 @@ export default defineConfig({
       },
       // Forward ảnh blog tĩnh cũ
       '/BTLWeb(PC)/backend/assets': {
-        target: 'http://backend:80',
+        target: 'http://168.144.33.103',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/BTLWeb\(PC\)/, '')
