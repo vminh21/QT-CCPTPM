@@ -9,13 +9,13 @@ export default defineConfig({
     proxy: {
       // Forward mọi request /api/* tới con Server Ubuntu (Production)
       '/api': {
-        target: 'http://192.168.64.16/backend',
+        target: 'http://168.144.33.103/backend',
         changeOrigin: true,
-        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
       },
       // Forward ảnh upload tới Server Ubuntu
       '/BTLWeb(PC)/backend/uploads': {
-        target: 'http://192.168.64.16',
+        target: 'http://168.144.33.103',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/BTLWeb\(PC\)/, '')
