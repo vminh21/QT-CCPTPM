@@ -1,12 +1,11 @@
 services:
   db:
-    image: mysql:8.0
+    image: mariadb:10.4
     container_name: gym_db_prod
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: gymmanagement
-      MYSQL_ROOT_HOST: "%"
     volumes:
       - db_data_prod_v2:/var/lib/mysql
       # Tự động nạp dữ liệu khi db chạy lần đầu
