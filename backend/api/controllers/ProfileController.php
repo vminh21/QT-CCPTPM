@@ -18,8 +18,16 @@ require_once ROOT_PATH . 'Config/Database.php';
 
 class ProfileController {
 
+    /**
+     * Định tuyến yêu cầu API liên quan đến hồ sơ hội viên.
+     *
+     * @param string|null $id Action phụ hoặc ID tài nguyên.
+     * @param string|null $sub Hành động phụ tiếp theo.
+     * @param string $method Phương thức HTTP (GET, POST, PUT, DELETE, PATCH).
+     * @param array $segments Các phần của URI segment.
+     * @return void
+     */
     public static function handle(?string $id, ?string $sub, string $method, array $segments): void {
-        //   /api/profile/{resource}/{id}/{sub}
         // segments[0]='profile', [1]=resource, [2]=id, [3]=sub
         $resource = $segments[1] ?? null;
         $resId    = $segments[2] ?? null;
@@ -43,12 +51,22 @@ class ProfileController {
         };
     }
 
+    /**
+     * Lấy ID hội viên từ Token JWT/Session sau khi xác thực.
+     *
+     * @return int ID hội viên.
+     */
     private static function getMemberId(): int {
         $payload = requireMember();
         return (int)$payload['member_id'];
     }
 
-    // ── GET /api/profile ──────────────────────────────────────────────────────
+    /**
+     * GET /api/profile
+     * Hiển thị toàn bộ dữ liệu hồ sơ hội viên (gói tập, giao dịch, thông báo, lịch tập, HLV).
+     *
+     * @return void
+     */
     private static function show(): void {
         $memberId = self::getMemberId();
         $profSvc  = new ProfileService();
@@ -60,6 +78,7 @@ class ProfileController {
         $schedules  = $schedSvc->getUpcomingSchedulesByMember($memberId);
         $trainers   = $trnSvc->getAllTrainers();
 
+        // Đếm số lượng lịch tập đang chờ xác nhận
         $pendingCount = count(array_filter($schedules, fn($s) => $s['status'] === 'Chờ xác nhận'));
 
         jsonResponse(['success' => true, 'data' => [
@@ -75,7 +94,12 @@ class ProfileController {
         ]]);
     }
 
-    // ── PUT /api/profile ──────────────────────────────────────────────────────
+    /**
+     * PUT /api/profile
+     * Cập nhật thông tin cá nhân của hội viên.
+     *
+     * @return void
+     */
     private static function update(): void {
         $memberId = self::getMemberId();
         $body     = getRequestBody();
@@ -91,30 +115,37 @@ class ProfileController {
         );
 
         if ($ok) {
-            // 200 OK
             jsonResponse(['success' => true, 'message' => 'Cập nhật thông tin thành công!'], 200);
         } else {
-            // 400 Bad Request
             jsonResponse(['success' => false, 'error' => 'Có lỗi xảy ra khi cập nhật hồ sơ.'], 400);
         }
     }
 
-    // ── DELETE /api/profile/subscription ─────────────────────────────────────
+    /**
+     * DELETE /api/profile/subscription
+     * Hủy gói tập đang kích hoạt của hội viên.
+     *
+     * @return void
+     */
     private static function cancelSubscription(): void {
         $memberId = self::getMemberId();
         $svc      = new ProfileService();
         $ok       = $svc->cancelSubscription($memberId);
         
         if ($ok) {
-            // 200 OK
             jsonResponse(['success' => true, 'message' => 'Đã hủy gói tập thành công!'], 200);
         } else {
-            // 400 Bad Request
             jsonResponse(['success' => false, 'error' => 'Không tìm thấy gói tập hoặc lỗi khi hủy.'], 400);
         }
     }
 
-    // ── PATCH /api/profile/schedules/{id}/status ──────────────────────────────
+    /**
+     * PATCH /api/profile/schedules/{id}/status
+     * Xác nhận hoặc từ chối lịch tập của hội viên.
+     *
+     * @param string $scheduleId ID lịch tập.
+     * @return void
+     */
     private static function confirmSchedule(string $scheduleId): void {
         requireMember();
         $body    = getRequestBody();
@@ -122,15 +153,18 @@ class ProfileController {
         $ok      = $svc->updateStatus((int)$scheduleId, $body['status'] ?? '');
         
         if ($ok) {
-            // 200 OK
             jsonResponse(['success' => true, 'message' => 'Cập nhật trạng thái lịch tập thành công'], 200);
         } else {
-            // 404 Not Found
             jsonResponse(['success' => false, 'error' => 'Không tìm thấy lịch tập cần cập nhật'], 404);
         }
     }
 
-    // ── POST /api/profile/reviews ─────────────────────────────────────────────
+    /**
+     * POST /api/profile/reviews
+     * Gửi đánh giá cho huấn luyện viên cá nhân (PT).
+     *
+     * @return void
+     */
     private static function submitReview(): void {
         $memberId = self::getMemberId();
         $body     = getRequestBody();
@@ -148,7 +182,12 @@ class ProfileController {
         }
     }
 
-    // ── GET /api/profile/reviews/can-review ───────────────────────────────────
+    /**
+     * GET /api/profile/reviews/can-review
+     * Kiểm tra xem hội viên đã học với HLV này chưa để được quyền đánh giá.
+     *
+     * @return void
+     */
     private static function canReview(): void {
         $memberId  = self::getMemberId();
         $trainerId = (int)($_GET['trainer_id'] ?? 0);
@@ -160,3 +199,4 @@ class ProfileController {
         jsonResponse(['success' => true, 'can_review' => (bool)$stmt->fetch()]);
     }
 }
+?>
