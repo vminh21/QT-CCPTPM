@@ -1,8 +1,18 @@
+/**
+ * Module: Giao diện & Chức năng trang Chương trình tập luyện (Exercise Categories)
+ * Người phụ trách: Nguyễn Anh Tuấn (STT 5 - Nhóm 9)
+ * Mô tả: Trang giới thiệu chi tiết 4 bộ môn tập luyện cốt lõi của FitPhysique:
+ *        1. Body Building (Xây dựng cơ bắp & Sức mạnh)
+ *        2. Cardio Training (Đốt mỡ & Sức bền tim mạch)
+ *        3. CrossFit System (Thử thách đa chức năng cường độ cao)
+ *        4. General Fitness (Duy trì vóc dáng & Sức khỏe toàn diện)
+ */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import '../Member/Member.css';
 
+// Danh sách cấu hình dữ liệu 4 chương trình tập luyện chuẩn FitPhysique
 const PROGRAMS = [
   {
     id: 'bodybuilding',
@@ -53,6 +63,7 @@ const PROGRAMS = [
 function ExercisePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  // Kiểm tra trạng thái đăng nhập: Nếu đã đăng nhập thì dẫn thẳng đến thanh toán gói tập, chưa đăng nhập thì yêu cầu đăng nhập
   const ctaPath = user?.loggedIn ? '/member/payment' : '/login';
 
   return (
