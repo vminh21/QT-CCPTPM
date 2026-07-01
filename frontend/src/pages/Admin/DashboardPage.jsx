@@ -1,3 +1,13 @@
+/**
+ * Module: Giao diện & Chức năng trang thống kê toàn hệ thống.
+ * Người phụ trách: Hồ Minh Nhật (STT 2 - Nhóm 9)
+ * Mô tả: Dashboard tổng hợp toàn hệ thống:
+ *        - Tổng doanh thu, tổng số giao dịch, tổng số hội viên.
+ *        - Thông tin hội viên & lịch sử giao dịch gần đây.
+ *        - Tìm kiếm theo họ tên hoặc loại giao dịch.
+ *        - Thêm mới lịch sử giao dịch (đăng ký mới hoặc gia hạn).
+ *        - Chỉnh sửa thông tin thành viên, số điện thoại, gói tập hoặc xóa thành viên khỏi hệ thống.
+ */
 import { useState, useEffect, useCallback } from 'react';
 import { AdminLayout } from '../../components/layout/AdminLayout';
 import '../../components/layout/AdminLayout.css';

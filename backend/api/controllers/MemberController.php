@@ -1,6 +1,7 @@
 <?php
 /**
  * MemberController
+ * Người phụ trách: Hồ Minh Nhật (STT 5 - Nhóm 9)
  *
  * Quản trị danh sách hội viên dành cho quyền Admin.
  * GET    /api/members                → Danh sách / tìm kiếm (Admin)

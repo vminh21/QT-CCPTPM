@@ -1,3 +1,12 @@
+/**
+ * Module: Giao diện & Chức năng trang Quản lý Thành Viên.
+ * Người phụ trách: Hồ Minh Nhật (STT 2 - Nhóm 9)
+ * Mô tả: Danh sách các thành viên (khách hàng):
+ *        - Xem danh sách thành viên, trạng thái gói tập.
+ *        - Tìm kiếm theo họ tên hoặc email đăng nhập.
+ *        - Thêm mới thành viên.
+ *        - Chỉnh sửa thông tin thành viên, số điện thoại, gói tập hoặc xóa thành viên khỏi hệ thống.
+ */
 import { useState, useEffect, useCallback } from 'react';
 import { AdminLayout } from '../../components/layout/AdminLayout';
 import '../../components/layout/AdminLayout.css';

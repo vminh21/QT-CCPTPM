@@ -1,9 +1,10 @@
 <?php
 /**
- * DashboardController
+ * DashboardController (Module Thống kê toàn hệ thống)
+ * Người phụ trách: Hồ Minh Nhật (STT 5 - Nhóm 9)
  *
- * GET /api/dashboard/stats    → Thống kê tổng quan (Admin)
- * GET /api/dashboard/members  → Dropdown thành viên (Admin)
+ * GET /api/dashboard/stats    → Báo cáo các chỉ số: số thành viên, tổng doanh thu (Admin)
+ * GET /api/dashboard/members  → Danh sách lịch sử giao dịch của các thành viên (Admin)
  */
 
 require_once ROOT_PATH . 'BLL/DashboardService.php';
