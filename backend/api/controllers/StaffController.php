@@ -1,11 +1,13 @@
 <?php
 /**
- * StaffController
+ * Controller: StaffController (Module Quản lý nhân sự)
+ * Người phụ trách: Nguyễn Anh Tuấn (STT 5 - Nhóm 9)
  *
- * GET    /api/staff        → Danh sách nhân viên (SuperAdmin)
- * POST   /api/staff        → Tạo mới (SuperAdmin)
- * PUT    /api/staff/{id}   → Cập nhật (SuperAdmin)
- * DELETE /api/staff/{id}   → Xóa (SuperAdmin)
+ * Endpoints:
+ *   GET    /api/staff        → Lấy danh sách nhân viên (Yêu cầu quyền SuperAdmin)
+ *   POST   /api/staff        → Thêm mới nhân viên, tự động mã hóa mật khẩu Bcrypt (SuperAdmin)
+ *   PUT    /api/staff/{id}   → Cập nhật thông tin/lương/sđt nhân viên (SuperAdmin)
+ *   DELETE /api/staff/{id}   → Xóa nhân viên khỏi hệ thống (SuperAdmin)
  */
 
 require_once ROOT_PATH . 'BLL/StaffService.php';
