@@ -1,3 +1,12 @@
+/**
+ * Module: Giao diện & Chức năng trang Quản lý nhân sự (Staff Management)
+ * Người phụ trách: Nguyễn Anh Tuấn (STT 5 - Nhóm 9)
+ * Mô tả: Cung cấp đầy đủ thao tác CRUD cho quản trị viên tối cấp (SuperAdmin):
+ *        - Xem danh sách nhân viên, mức lương và thông tin liên hệ.
+ *        - Tìm kiếm theo họ tên hoặc email đăng nhập.
+ *        - Thêm mới nhân viên (mã hóa mật khẩu an toàn phía Server).
+ *        - Chỉnh sửa mức lương, số điện thoại hoặc xóa nhân viên khỏi hệ thống.
+ */
 import { useEffect, useState, useCallback } from 'react';
 import { AdminLayout } from '../../components/layout/AdminLayout';
 import '../../components/layout/AdminLayout.css';
@@ -17,6 +26,7 @@ function StaffPage() {
 
   const showToast = (msg, type='success') => { setToast({show:true,msg,type}); setTimeout(()=>setToast({show:false,msg:'',type:'success'}),3500); };
 
+  // Hàm gọi API lấy danh sách nhân viên theo từ khóa tìm kiếm
   const fetchList = useCallback(async () => {
     setLoading(true);
     try { const res = await staffApi.list({ search }); setList(res.data.data||[]); }
@@ -26,6 +36,7 @@ function StaffPage() {
 
   useEffect(() => { fetchList(); }, [fetchList]);
 
+  // Xử lý xóa nhân viên sau khi xác nhận từ phía quản trị viên
   const handleDelete = async (id) => {
     if (!window.confirm('Xóa nhân viên này?')) return;
     try {
@@ -36,6 +47,7 @@ function StaffPage() {
     }
   };
 
+  // Xử lý lưu thông tin (Thêm mới nếu không có staff_id, Cập nhật nếu có staff_id)
   const handleSave = async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
