@@ -1,9 +1,11 @@
 <?php
 /**
- * ReportController
+ * Controller: ReportController (Module Thống kê doanh thu & Báo cáo)
+ * Người phụ trách: Nguyễn Anh Tuấn (STT 5 - Nhóm 9)
  *
- * GET /api/reports          → Báo cáo theo năm (Admin), query: ?year=2025
- * GET /api/reports/years    → Danh sách năm có dữ liệu (Admin)
+ * Endpoints:
+ *   GET /api/reports          → Lấy dữ liệu thống kê doanh thu theo năm (yêu cầu quyền Admin/Staff)
+ *   GET /api/reports/years    → Lấy danh sách các năm có dữ liệu giao dịch trong hệ thống
  */
 
 require_once ROOT_PATH . 'BLL/ReportService.php';
