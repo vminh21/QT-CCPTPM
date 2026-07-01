@@ -1,6 +1,8 @@
 <?php
 /**
  * NotificationController
+ * NGUYỄN HOÀNG HIỆP 
+ * Quản trị thông báo 
  *
  * GET    /api/notifications              → Danh sách (Member: của mình, Admin: tất cả)
  * GET    /api/notifications/count        → Đếm chưa đọc (Member)

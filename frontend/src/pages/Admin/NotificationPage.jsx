@@ -1,3 +1,10 @@
+/**
+ * Module: Giao diện & Chức năng trang Quản lý THÔNG BÁO.
+ * Người phụ trách: NGUYỄN HOÀNG HIỆP
+ * Mô tả: Danh sách các thông báo:
+ *        - Xem danh sách thông báo.
+ *        - Thêm mới, chỉnh sửa hoặc xóa thông báo.
+ */
 import { useEffect, useState, useRef } from 'react';
 import { AdminLayout } from '../../components/layout/AdminLayout';
 import '../../components/layout/AdminLayout.css';
