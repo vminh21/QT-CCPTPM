@@ -1,10 +1,11 @@
 # FitPhysique - Hệ Thống Quản Lý Phòng Gym Hiện Đại 🏋️‍♂️
 
-![FitPhysique Banner](https://img.shields.io/badge/Architecture-3--Layer-blue)
-![Tech Stack](https://img.shields.io/badge/Stack-React%20%7C%20PHP%20%7C%20MySQL-orange)
-![Auth](https://img.shields.io/badge/Security-JWT-green)
+![FitPhysique Banner](https://img.shields.io/badge/Architecture-Microservices-blue)
+![Tech Stack](https://img.shields.io/badge/Stack-React%20%7C%20PHP%20%7C%20MariaDB-orange)
+![Deployment](https://img.shields.io/badge/Deploy-Docker%20%7C%20Vercel%20%7C%20DigitalOcean-brightgreen)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-red)
 
-Dự án **FitPhysique** là một ứng dụng quản lý phòng tập Gym chuyên nghiệp, được xây dựng với kiến trúc tách biệt hoàn toàn giữa Frontend (React) và Backend (PHP RESTful API). Hệ thống hỗ trợ đa vai trò (Admin, PT, Member) với trải nghiệm người dùng mượt mà và bảo mật cao.
+Dự án **FitPhysique** là một ứng dụng quản lý phòng tập Gym chuyên nghiệp. Hệ thống được thiết kế theo tư tưởng Microservices tách biệt hoàn toàn giữa Frontend (React/Vite) và Backend (PHP RESTful API), đồng thời áp dụng chuẩn công nghiệp tự động hóa triển khai bằng Docker và GitHub Actions.
 
 ---
 
@@ -23,31 +24,37 @@ Dự án **FitPhysique** là một ứng dụng quản lý phòng tập Gym chuy
 ### 👤 Module Hội Viên (Member)
 *   **Hồ Sơ Cá Nhân:** Quản lý thông tin, đổi mật khẩu và xem hạng Membership.
 *   **Lịch Tập Luyện:** Theo dõi và xác nhận lịch tập với PT.
-*   **Bảng Tin & Kiến Thức:** Xem các bài viết mới nhất về sức khỏe và bài tập.
 *   **Đăng Ký Gói Tập:** Hệ thống thanh toán và đăng ký gói tập trực tuyến.
 
 ---
 
-## 🛠️ Kiến Trúc Hệ Thống (3-Tier Architecture)
+## 🛠️ Kiến Trúc Hệ Thống & Triển Khai (Cloud Deployment)
 
-Dự án tuân thủ nghiêm ngặt mô hình 3 lớp để đảm bảo tính mở rộng:
-1.  **Presentation Tier:** React.js (Vite) + Tailwind CSS + Axios.
-2.  **Business Logic Tier (BLL):** PHP xử lý logic nghiệp vụ, Validation, JWT Handling.
-3.  **Data Access Tier (DAL):** Sử dụng PDO và Singleton Pattern để tối ưu hóa kết nối Database.
+Hệ thống được thiết kế để vận hành hoàn hảo trên môi trường Cloud:
+1.  **Frontend (Presentation):** React.js (Vite) + Tailwind CSS. Triển khai tự động (Auto-deploy) lên nền tảng đám mây siêu tốc **Vercel**.
+2.  **Backend (API Server):** PHP 8.2 xử lý logic nghiệp vụ, Validation, JWT Handling. Đóng gói bằng **Docker** (Containerized) và chạy trên máy chủ vật lý **DigitalOcean**.
+3.  **Database:** **MariaDB 10.4** cấu hình Volume chống mất dữ liệu, giao tiếp trong mạng ảo nội bộ (Docker Network).
+4.  **Tự động hóa CI/CD:** Sử dụng **GitHub Actions** để tự động kiểm duyệt cú pháp mã nguồn và triển khai bản cập nhật mới nhất (Continuous Deployment) lên máy chủ mà không cần thao tác thủ công.
 
 ---
 
-## ⚙️ Hướng Dẫn Cài Đặt
+## ⚙️ Hướng Dẫn Khởi Chạy (Môi trường Dev)
 
-### 1. Backend (PHP & MySQL)
-1. Copy thư mục `backend` vào `C:/xampp/htdocs/BTLWeb(PC)/`.
-2. Mở **phpMyAdmin**, tạo database tên `gymmanagement`.
-3. Import file SQL trong thư mục `database/gymmanagement.sql`.
-4. Cấu hình tại `backend/Config/Database.php`.
+### 1. Khởi động Backend & Database (Bằng Docker)
+Hệ thống sử dụng Docker để đồng bộ môi trường. Bạn **không cần** cài đặt XAMPP hay MySQL trên máy cá nhân.
+1. Mở Terminal tại thư mục gốc của dự án.
+2. Chạy lệnh xây dựng và khởi động cụm Server ngầm:
+   ```bash
+   docker-compose up -d --build
+   ```
+3. Docker sẽ tự động tải PHP, MariaDB và nạp dữ liệu mồi từ file `GymManagement_export.sql`. API Backend sẽ hoạt động tại cổng `80` (hoặc cấu hình tùy chỉnh).
 
-### 2. Frontend (React)
-1. Truy cập thư mục `frontend`.
-2. Cài đặt dependencies:
+### 2. Khởi động Frontend (React)
+1. Truy cập thư mục `frontend`:
+   ```bash
+   cd frontend
+   ```
+2. Cài đặt thư viện:
    ```bash
    npm install
    ```
@@ -58,22 +65,21 @@ Dự án tuân thủ nghiêm ngặt mô hình 3 lớp để đảm bảo tính m
 
 ---
 
-## 👥 Phân Công Thành Viên (Nhóm 9)
+## 👥 Phân Công Thành Viên
 
-| STT | Họ và tên | Chức vụ | Điểm tự đánh giá | Nhiệm vụ chi tiết |
-| :-- | :--- | :--- | :---: | :--- |
-| 1 | **Nguyễn Văn Minh** | Nhóm trưởng | 9 | Phân tích nghiệp vụ, thiết kế kiến trúc hệ thống, thuyết trình, PowerPoint, Module (Đăng nhập, đăng ký, quên mật khẩu, phân quyền, quản lý lịch tập, giáo trình, dashboard PT) |
-| 2 | **Nhữ Tùng Lâm** | Thành viên | 9 | Thiết kế hệ thống, Báo cáo, Phân tích nghiệp vụ, Module (Làm giao diện và chức năng trang người dùng, lịch sử giao dịch, thanh toán) |
-| 3 | **Hồ Minh Nhật** | Thành viên | 9 | Thiết kế hệ thống, Báo cáo, Vẽ sơ đồ UML, Module (Làm giao diện và chức năng trang tổng quan (dashboard), quản lý users) |
-| 4 | **Nguyễn Hoàng Hiệp** | Thành viên | 9 | Thiết kế hệ thống, Thiết kế kiến trúc hệ thống, PowerPoint, Vẽ sơ đồ UML, Module (Làm giao diện và chức năng trang quản lý thông báo, quản lý tin tức, tính BMI) |
-| 5 | **Nguyễn Anh Tuấn** | Thành viên | 9 | Thiết kế hệ thống, Báo cáo, Module (Làm giao diện và chức năng trang bodybuilding, cardio, fitness, crossfit, thống kê doanh thu, quản lý nhân sự) |
-| 6 | **Đàm Đình Long** | Thành viên | 9 | Thiết kế hệ thống, Báo cáo, Phân tích nghiệp vụ, Module (Quản lý PT, quản lý máy tập) |
+| STT | Họ và tên | Chức vụ | Nhiệm vụ chi tiết |
+| :-- | :--- | :--- | :--- |
+| 1 | **Nguyễn Văn Minh** | Nhóm trưởng | Phân tích nghiệp vụ, thiết kế kiến trúc hệ thống, thuyết trình, PowerPoint, Module (Đăng nhập, đăng ký, phân quyền, quản lý lịch tập, giáo trình, Thiết lập hệ thống CI/CD & Docker Cloud) |
+| 2 | **Nhữ Tùng Lâm** | Thành viên | Thiết kế hệ thống, Báo cáo, Phân tích nghiệp vụ, Module (Làm giao diện và chức năng trang người dùng, lịch sử giao dịch, thanh toán) |
+| 3 | **Hồ Minh Nhật** | Thành viên | Thiết kế hệ thống, Báo cáo, Vẽ sơ đồ UML, Module (Làm giao diện và chức năng trang tổng quan (dashboard), quản lý users) |
+| 4 | **Nguyễn Hoàng Hiệp** | Thành viên | Thiết kế hệ thống, Thiết kế kiến trúc hệ thống, PowerPoint, Vẽ sơ đồ UML, Module (Làm giao diện và chức năng trang quản lý thông báo, quản lý tin tức, tính BMI) |
+| 5 | **Nguyễn Anh Tuấn** | Thành viên | Thiết kế hệ thống, Báo cáo, Module (Làm giao diện và chức năng trang bodybuilding, cardio, fitness, crossfit, thống kê doanh thu, quản lý nhân sự) |
 
 ---
 
 ## 📞 Liên Hệ
-*   **Repo:** [https://github.com/vminh21/Gymweb.git](https://github.com/vminh21/Gymweb.git)
-*   **Giảng viên hướng dẫn:** Thầy Trần Đức Thắng
+*   **Kho lưu trữ:** [https://github.com/vminh21/QT-CCPTPM](https://github.com/vminh21/QT-CCPTPM)
+*   **Giảng viên hướng dẫn:** Thầy Nguyễn Văn Cường
 
 ---
-<p align="center">Made with ❤️ by Group 4</p>
+<p align="center">Made with ❤️ by FitPhysique Team</p>
